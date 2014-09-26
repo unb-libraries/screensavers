@@ -59,6 +59,7 @@ function screensavers_views_default_views() {
   $handler->display->display_options['fields']['field_screensaver_message']['table'] = 'field_data_field_screensaver_message';
   $handler->display->display_options['fields']['field_screensaver_message']['field'] = 'field_screensaver_message';
   $handler->display->display_options['fields']['field_screensaver_message']['label'] = '';
+  $handler->display->display_options['fields']['field_screensaver_message']['alter']['nl2br'] = TRUE;
   $handler->display->display_options['fields']['field_screensaver_message']['element_label_colon'] = FALSE;
   /* Field: Content: Edit link */
   $handler->display->display_options['fields']['edit_node']['id'] = 'edit_node';
