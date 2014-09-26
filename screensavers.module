@@ -1,0 +1,121 @@
+<?php
+/**
+ * @file
+ * Code for the Screensavers feature.
+ */
+
+include_once 'screensavers.features.inc';
+
+/**
+ * Implements hook_menu().
+ */
+function screensavers_menu() {
+  $items = array();
+  $items['screensavers'] = array(
+    'title' => 'Screensavers',
+    'page callback' => '_screensavers_category_page',
+    'access callback' => '_access_screensavers_category',
+    'expanded' => TRUE,
+  );
+  $items['screensavers/HIL'] = array(
+    'title' => 'Screensavers for HIL',
+    'page callback' => '_screensavers_admin',
+    'page arguments' => array('HIL'),
+    'access arguments' => array('admin screensavers hil'),
+  );
+  $items['screensavers/SCI'] = array(
+    'title' => 'Screensavers for SCI',
+    'page callback' => '_screensavers_admin',
+    'page arguments' => array('SCI'),
+    'access arguments' => array('admin screensavers sci'),
+  );
+  $items['screensavers/ENG'] = array(
+    'title' => 'Screensavers for ENG',
+    'page callback' => '_screensavers_admin',
+    'page arguments' => array('ENG'),
+    'access arguments' => array('admin screensavers eng'),
+  );
+  return $items;
+}
+
+/**
+ * Access callback for permission to view screensavers page, which acts as a category header for each library screensaver page.
+ */
+function _access_screensavers_category() {
+  return 'admin screensavers hil' || 'admin screensavers sci' || 'admin screensavers eng';
+}
+
+/**
+ * Implements hook_permission().
+ */
+function screensavers_permission() {
+  return array(
+    'view screensavers rss' => array(
+      'title' => t('View Screensavers RSS'),
+    ),
+    'admin screensavers hil' => array(
+      'title' => t('Admin Screensavers HIL'),
+    ),
+    'admin screensavers sci' => array(
+      'title' => t('Admin Screensavers SCI'),
+    ),
+    'admin screensavers eng' => array(
+      'title' => t('Admin Screensavers ENG'),
+    ),
+  );
+}
+
+/**
+ * Custom page callback function for the page used as a category header for each library screensaver page.
+ */
+function _screensavers_category_page() {
+  $output = '<p>Please select an option from Screensavers navigation menu in the sidebar.</p>';
+  return $output;
+}
+
+/**
+ * Custom page callback function for administering screensavers, declared in hook_menu().
+ */
+function _screensavers_admin($lib) {
+  drupal_add_css('
+  .views-row {
+    margin: 20px 0;
+  }
+  .view-empty {
+    margin-top: 20px;
+  }', 'inline');
+
+  $output = '<a href="/node/add/screensaver-message">Add Screensaver Message</a>';
+  $output .= views_embed_view('screensavers', 'block', $lib);
+  return $output;
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function screensavers_form_alter(&$form, $form_state, $form_id) {
+  if ($form_id == 'screensaver_message_node_form') {
+      // Remove any libraries the user doesn't have permission to admin
+      $field_language = $form['field_screensaver_library']['#language'];
+      $options = $form['field_screensaver_library'][$field_language]['#options'];
+      $libraries_can_admin = array();
+
+      if (user_access('admin screensavers hil')) {
+        $libraries_can_admin[] = 'HIL';
+      }
+      if (user_access('admin screensavers sci')) {
+        $libraries_can_admin[] = 'SCI';
+      }
+      if (user_access('admin screensavers eng')) {
+        $libraries_can_admin[] = 'ENG';
+      }
+
+      foreach ($options as $key => $value) {
+        if (!in_array($key, $libraries_can_admin)) {
+          unset($options[$key]);
+        }
+      }
+
+      $form['field_screensaver_library'][$field_language]['#options'] = $options;
+  }
+}
