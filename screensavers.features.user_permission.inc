@@ -100,6 +100,7 @@ function screensavers_user_default_permissions() {
     'name' => 'view screensavers rss',
     'roles' => array(
       'administrator' => 'administrator',
+      'anonymous user' => 'anonymous user',
     ),
     'module' => 'screensavers',
   );
