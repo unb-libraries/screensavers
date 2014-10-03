@@ -42,7 +42,7 @@ function screensavers_menu() {
  * Access callback for permission to view screensavers page, which acts as a category header for each library screensaver page.
  */
 function _access_screensavers_category() {
-  return 'admin screensavers hil' || 'admin screensavers sci' || 'admin screensavers eng';
+  return user_access('admin screensavers hil') || user_access('admin screensavers sci') || user_access('admin screensavers eng');
 }
 
 /**
