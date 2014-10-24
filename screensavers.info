@@ -1,7 +1,6 @@
 name = Screensavers
 core = 7.x
 package = UNB Library
-version = 7.x-1.0
 project = screensavers
 dependencies[] = ctools
 dependencies[] = features
