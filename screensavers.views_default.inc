@@ -173,7 +173,7 @@ function screensavers_views_default_views() {
   $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['ui_name'] = 'Link to Node';
   $handler->display->display_options['fields']['nothing']['label'] = '';
-  $handler->display->display_options['fields']['nothing']['alter']['text'] = '[url]node/[nid]';
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = 'node/[nid]';
   $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
   $handler->display->display_options['path'] = 'screensavers/rss/%';
   $handler->display->display_options['sitename_title'] = 0;
